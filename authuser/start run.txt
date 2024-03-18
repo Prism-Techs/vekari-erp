@@ -1,0 +1,1 @@
+./vek_env/Scripts/Activate.ps1

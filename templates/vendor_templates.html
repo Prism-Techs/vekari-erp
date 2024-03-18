@@ -1,0 +1,223 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en"> {% endcomment %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Vekaria-Invoice</title>
+        <style>
+            /* General styles for desktop email view */
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+            }
+    
+            .invoice {
+                width: 800px; /* Set a fixed width for the email template */
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #BBBBBB;
+                font-family: Arial, sans-serif;
+            }
+    
+            .invoice_header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+                width: 100%;
+            }
+    
+            .company_info {
+                width: 45%;
+            }
+    
+            #company_logo>img {
+                max-width: 100%;
+                height: auto;
+            }
+    
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+    
+            td, th {
+                border: 1px solid #BBBBBB;
+                padding: 8px;
+                text-align: center;
+            }
+    
+            table > thead > tr {
+                font-weight: 700;
+            }
+    
+            .invoice-content {
+                margin-top: 20px;
+            }
+    
+            .total_info {
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="invoice">
+            <div class="invoice_header">
+                <div class="company_info">
+                    <div id="company_logo">
+                        <img src="https://vekaria.com/images/logo.png" alt="company_logo">
+                    </div>
+                    <div id="company_info">
+                        <p>
+                            <strong>VEKARIA ENGINEERING WORKS PRIVATE LIMITED</strong><br>
+                            Regd.office : kishan chowk,<br>
+                            near vekaria street,dwarkapuri road,<br>
+                            Jamnagar-361005. (GUJ) India <br>
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <div class="customer_details" style="text-align: right;">
+                        <p>
+                            <strong>RFQ no : </strong><span>{{rfq_no | default:''}} </span><br>
+                            <strong>RFQ date : </strong><span>{{created_date | date:'d-m-Y'}}</span><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="invoice-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 3rem;">No</th>
+                            <th>Part No.</th>
+                            <th style="width: 7rem;">Make</th>
+                            <th style="width: 7rem;">Model</th>
+                            <th style="width: 50%;">Specification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for part in part_list %}
+                        <tr>
+                            <td>{{forloop.counter }}</td>
+                            <td>{{ part.part.product_part_no | default:''}}</td>
+                            <td>{{ part.make | default:''}}</td>
+                            <td>{{ part.model | default:''}}</td>
+                            <td>{{ part.specification_text | default:''}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+    </html>
+    
+{% comment %} <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Vekaria-Invoice</title>
+    <!-- CSS only -->
+    <style>
+        .invoice {
+    margin: 2rem;
+    padding: 1rem;
+    border: 1px solid #BBBBBB;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.invoice_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#company_logo>img {
+    height: 3rem;
+}
+
+#company_info {
+    margin-top: 2rem;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #BBBBBB;
+    padding: 8px;
+}
+
+table>thead>tr {
+    font-weight: 700;
+}
+
+.invoice-content {
+    margin: 2rem 0rem 0rem 0rem;
+}
+.total_info{
+    text-align: right;
+}
+    </style>
+</head>
+
+<body>
+    <div class="invoice">
+        <div class="invoice_header">
+            <div class="company_info">
+                <div id="company_logo">
+                    <img src="https://vekaria.com/images/logo.png" alt="company_logo">
+                </div>
+                <div id="company_info">
+                    <p>
+                        <strong>VEKARIA ENGINEERING WORKS PRIVATE LIMITED</strong><br>
+                        Regd.office : kishan chowk,<br>
+                        near vekaria street,dwarkapuri road,<br>
+                        Jamnagar-361005. (GUJ) India <br>
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div class="customer_details">
+                    <p>
+                        <strong>Invoice no : </strong><span>{{rfq_no | default:''}} </span><br>
+                        <strong>Invoice date : </strong><span>{{created_date | date:'d-m-Y'}}</span><br>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="invoice-content">
+            <table>
+                <thead>
+                    <tr>
+                        <td style="width: 3rem;">No</td>
+                        <td>Part name</td>
+                        <td style="width: 7rem;">Make</td>
+                        <td style="width: 7rem;">Model</td>
+                        <td style="width:50rem">Specification</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for part in part_list %}
+                    <tr>
+                        <td>{{forloop.counter }}</td>
+                        <td>{{ part.part.product_part_no }}</td>
+                        <td>{{ part.make }}</td>
+                        <td>{{ part.model }}</td>
+                        <td>{{ part.specification_text }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html> {% endcomment %}
+<!-- VEKARIA ENGINEERING WORKS PRIVATE LIMITED
+REGD.OFFICE : KISHAN CHOWK, NEAR VEKARIA STREET, DWARKAPURI ROAD, JAMNAGAR-361005. (GUJ) INDIA
+PHONE: +91 - 288 - 2551093, 2552093, 2556293 : Email : info@vekaria.com : www.vekaria.com -->
